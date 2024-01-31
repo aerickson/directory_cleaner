@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "tc-directory-cleaner"
+name = "tc_directory_cleaner"
 version = "0.1.0"
 description = ""
 authors = ["Andrew Erickson <aerickson@mozilla.com>"]
@@ -13,6 +13,7 @@ python = "^3.9"
 ruff = "^0.1.15"
 black = "^24.1.1"
 pytest = "^8.0.0"
+pytest-cov = "^4.1.0"
 
 [build-system]
 requires = ["poetry-core"]

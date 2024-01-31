@@ -4,7 +4,7 @@ import os
 import shutil
 from pathlib import Path
 
-import directory_cleaner
+import tc_directory_cleaner.directory_cleaner as TDC
 
 class TestFileOperations(unittest.TestCase):
     def create_folders_and_files(self, root_dir, paths):
@@ -29,7 +29,7 @@ class TestFileOperations(unittest.TestCase):
 
     def test_directory_cleaner(self):
         exception_list = ["generic-worker.cfg", "tasks", "caches"]
-        dc = directory_cleaner.DirectoryCleaner(self.temp_dir1, exception_list)
+        dc = TDC.DirectoryCleaner(self.temp_dir1, exception_list)
         result = dc.clean_directory()
         # print(result)
         assert result['deleted'] == [ str(Path(self.temp_dir1) / 'junk2'), 
