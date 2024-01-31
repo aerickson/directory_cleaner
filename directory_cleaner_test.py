@@ -1,6 +1,9 @@
+#!/usr/bin/env python3
+
 import unittest
 import tempfile
 import os
+import shutil
 
 class TestFileOperations(unittest.TestCase):
     def setUp(self):
@@ -18,7 +21,7 @@ class TestFileOperations(unittest.TestCase):
 
     def tearDown(self):
         # Remove the temporary directory and its contents after the test
-        os.rmdir(self.temp_dir)
+        shutil.rmtree(self.temp_dir)
 
     def test_file_existence(self):
         # Test if the files were created successfully
