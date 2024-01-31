@@ -4,16 +4,21 @@ import os
 from collections import deque
 
 class DirectoryCleaner:
-    def __init__(self, directory_path, exception_list):
+    def __init__(self, directory_path, exception_list, debug_mode=False):
         self.directory_path = directory_path
         self.exception_list = exception_list
+        self.debug_mode = debug_mode
+
+    def debug_print(self, a_string):
+        if self.debug_mode:
+            print(a_string)
 
     def clean_directory(self):
         if not os.path.exists(self.directory_path):
             print(f"Directory '{self.directory_path}' does not exist.")
             return
 
-        print(f"Cleaning directory: {self.directory_path}")
+        self.debug_print(f"Cleaning directory: {self.directory_path}")
         result = self._clean_non_recursive()
         return result
 
@@ -37,24 +42,26 @@ class DirectoryCleaner:
                         # If not in the exception list, remove the file
                         try:
                             # os.remove(item_path)
-                            print(f"- Removed file: {item_path}")
+                            self.debug_print(f"- Removed file: {item_path}")
                             deleted_items.append(item_path)
                         except Exception as e:
-                            print(f"- Error removing file {item_path}: {e}")
+                            self.debug_print(f"- Error removing file {item_path}: {e}")
                             error_items.append(item_path)
                 else:
-                    print(f"- Skipped file/directory: {item_path}")
+                    self.debug_print(f"- Skipped file/directory: {item_path}")
                     skipped_items.append(item_path)
         return {'skipped': skipped_items, 'deleted': deleted_items, 'errors': error_items}
 
-# Example usage:
-directory_path = "/tmp/test-directory"
-exception_list = ["generic-worker.cfg", "tasks", "cache"]
-#"Downloads", "file_to_keep.txt", "important_document.docx"]
+if __name__ == '__main__':
 
-cleaner = DirectoryCleaner(directory_path, exception_list)
-result = cleaner.clean_directory()
+    # Example usage:
+    directory_path = "/tmp/test-directory"
+    exception_list = ["generic-worker.cfg", "tasks", "cache"]
+    #"Downloads", "file_to_keep.txt", "important_document.docx"]
 
-# for debugging
-# import pprint
-# pprint.pprint(result)
+    cleaner = DirectoryCleaner(directory_path, exception_list)
+    result = cleaner.clean_directory()
+
+    # for debugging
+    # import pprint
+    # pprint.pprint(result)
