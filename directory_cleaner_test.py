@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import unittest
 import tempfile
 import os
@@ -18,8 +16,6 @@ class TestFileOperations(unittest.TestCase):
 
     def setUp(self):
         # test dir 1
-
-        # Create a temporary directory
         self.temp_dir = tempfile.mkdtemp()
 
         files_and_directories1 = ["junk1", "junk2", "junk_dir/junk4",
@@ -31,29 +27,17 @@ class TestFileOperations(unittest.TestCase):
         # Remove the temporary directory and its contents after the test
         shutil.rmtree(self.temp_dir)
 
-    # def test_file_existence(self):
-    #     # Test if the files were created successfully
-    #     self.assertTrue(os.path.isfile(self.file1_path))
-    #     self.assertTrue(os.path.isfile(self.file2_path))
-
     def test_directory_cleaner(self):
         # directory_path = "/tmp/test-directory"
         exception_list = ["generic-worker.cfg", "tasks", "caches"]
         dc = directory_cleaner.DirectoryCleaner(self.temp_dir, exception_list)
         result = dc.clean_directory()
-        # TODO: do asserts on result
-
-    # def test_file_content(self):
-    #     # Test if the content of the files is as expected
-    #     with open(self.file1_path, 'r') as file1:
-    #         content1 = file1.read()
-    #     self.assertEqual(content1, 'Hello, this is file1 content.')
-
-    #     with open(self.file2_path, 'r') as file2:
-    #         content2 = file2.read()
-    #     self.assertEqual(content2, 'Hello, this is file2 content.')
-
-    # Add more test methods as needed
+        print(result)
+        assert result['deleted'] == [ str(Path(self.temp_dir) / 'junk2'), 
+                                     str(Path(self.temp_dir) / 'junk1'), 
+                                     str(Path(self.temp_dir) / 'junk_dir/junk4')]
+        assert result['skipped'] == [ str(Path(self.temp_dir) / 'tasks'), 
+                                     str(Path(self.temp_dir) / 'caches')]
 
 if __name__ == '__main__':
     unittest.main()
