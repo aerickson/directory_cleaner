@@ -26,6 +26,7 @@ class TestFileOperations(unittest.TestCase):
             "caches/cache1/blah2",
             "caches/cache2/blah" "tasks/task1/task123",
             "tasks/task2/task234",
+            "generic-worker.cfg", "generic-worker.cfg.bak"
         ]
         self.create_folders_and_files(self.temp_dir1, files_and_directories1)
 
@@ -40,11 +41,14 @@ class TestFileOperations(unittest.TestCase):
         # print(result)
         assert result["deleted"] == [
             str(Path(self.temp_dir1) / "junk2"),
+            str(Path(self.temp_dir1) / "generic-worker.cfg.bak"),
             str(Path(self.temp_dir1) / "junk1"),
             str(Path(self.temp_dir1) / "junk_dir/junk4"),
+            
         ]
         assert result["skipped"] == [
             str(Path(self.temp_dir1) / "tasks"),
+            str(Path(self.temp_dir1) / "generic-worker.cfg"),
             str(Path(self.temp_dir1) / "caches"),
         ]
 
