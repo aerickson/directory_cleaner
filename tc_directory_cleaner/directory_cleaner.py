@@ -5,10 +5,11 @@ from collections import deque
 
 
 class DirectoryCleaner:
-    def __init__(self, directory_path, exception_list, debug_mode=False):
+    def __init__(self, directory_path, exception_list, debug_mode=False, dry_run=False):
         self.directory_path = directory_path
         self.exception_list = exception_list
         self.debug_mode = debug_mode
+        self.dry_run = dry_run
 
     def debug_print(self, a_string):
         if self.debug_mode:
@@ -42,7 +43,8 @@ class DirectoryCleaner:
                     elif os.path.isfile(item_path):
                         # If not in the exception list, remove the file
                         try:
-                            # os.remove(item_path)
+                            if not self.dry_run:
+                                os.remove(item_path)
                             self.debug_print(f"- Removed file: {item_path}")
                             deleted_items.append(item_path)
                         except Exception as e:
