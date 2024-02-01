@@ -52,6 +52,11 @@ class TestFileOperations(unittest.TestCase):
             str(Path(self.temp_dir1) / "caches"),
         ]
 
+    def test_directory_cleaner_non_existent(self):
+        exception_list = ["generic-worker.cfg", "tasks", "caches"]
+        dc = TDC.DirectoryCleaner('/tmp/z838a8ca8a88c', exception_list)
+        result = dc.clean_directory()
+        assert result['errors'] == ['/tmp/z838a8ca8a88c']
 
 if __name__ == "__main__":
     unittest.main()

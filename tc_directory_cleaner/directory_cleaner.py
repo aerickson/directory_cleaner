@@ -18,7 +18,7 @@ class DirectoryCleaner:
     def clean_directory(self):
         if not os.path.exists(self.directory_path):
             print(f"Directory '{self.directory_path}' does not exist.")
-            return
+            return {'errors': [self.directory_path]}
 
         self.debug_print(f"Cleaning directory: {self.directory_path}")
         result = self._clean_non_recursive()

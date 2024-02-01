@@ -3,4 +3,10 @@
 #set -x
 set -e
 
-pytest --cov=tc_directory_cleaner --cov-report=html
+# .coveragerc sets options
+pytest -vv --cov=tc_directory_cleaner --cov-report=html
+
+
+echo ""
+echo "to view the report, run:"
+echo "  open htmlcov/index.html"
