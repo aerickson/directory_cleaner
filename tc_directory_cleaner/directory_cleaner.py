@@ -3,6 +3,7 @@
 import os
 from collections import deque
 
+
 class DirectoryCleaner:
     def __init__(self, directory_path, exception_list, debug_mode=False):
         self.directory_path = directory_path
@@ -50,14 +51,19 @@ class DirectoryCleaner:
                 else:
                     self.debug_print(f"- Skipped file/directory: {item_path}")
                     skipped_items.append(item_path)
-        return {'skipped': skipped_items, 'deleted': deleted_items, 'errors': error_items}
+        return {
+            "skipped": skipped_items,
+            "deleted": deleted_items,
+            "errors": error_items,
+        }
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
 
     # Example usage:
     directory_path = "/tmp/test-directory"
     exception_list = ["generic-worker.cfg", "tasks", "cache"]
-    #"Downloads", "file_to_keep.txt", "important_document.docx"]
+    # "Downloads", "file_to_keep.txt", "important_document.docx"]
 
     cleaner = DirectoryCleaner(directory_path, exception_list)
     result = cleaner.clean_directory()
