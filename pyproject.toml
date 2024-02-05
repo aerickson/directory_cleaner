@@ -8,6 +8,8 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.9"
 
+[tool.poetry.scripts]
+directory_cleaner = "directory_cleaner.main:main"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.1.15"
