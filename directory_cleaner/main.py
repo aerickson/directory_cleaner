@@ -17,6 +17,7 @@ def main():
     # Add command line argument for config file path
     parser.add_argument('--config', '-c', dest='config_file', type=str, required=True,
                         help='Path to the config file in INI format.')
+    parser.add_argument('--dry-run', '-d', dest='dry_run', action='store_true', help="Don't delete anything, just print what would be deleted.")
 
     # Parse command line arguments
     args = parser.parse_args()
