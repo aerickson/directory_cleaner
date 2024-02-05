@@ -54,9 +54,9 @@ class DirectoryCleaner:
                     self.debug_print(f"- Skipped file/directory: {item_path}")
                     skipped_items.append(item_path)
         return {
-            "skipped": skipped_items,
-            "deleted": deleted_items,
-            "errors": error_items,
+            "skipped": sorted(skipped_items),
+            "deleted": sorted(deleted_items),
+            "errors": sorted(error_items),
         }
 
 

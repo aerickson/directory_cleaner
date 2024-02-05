@@ -40,17 +40,21 @@ class TestFileOperations:
         dc = DC.DirectoryCleaner(self.temp_dir1, exception_list)
         result = dc.clean_directory()
         # print(result)
-        assert result["deleted"] == [
-            str(Path(self.temp_dir1) / "junk2"),
-            str(Path(self.temp_dir1) / "generic-worker.cfg.bak"),
-            str(Path(self.temp_dir1) / "junk1"),
-            str(Path(self.temp_dir1) / "junk_dir/junk4"),
-        ]
-        assert result["skipped"] == [
-            str(Path(self.temp_dir1) / "tasks"),
-            str(Path(self.temp_dir1) / "generic-worker.cfg"),
-            str(Path(self.temp_dir1) / "caches"),
-        ]
+        assert result["deleted"] == sorted(
+            [
+                str(Path(self.temp_dir1) / "generic-worker.cfg.bak"),
+                str(Path(self.temp_dir1) / "junk1"),
+                str(Path(self.temp_dir1) / "junk2"),
+                str(Path(self.temp_dir1) / "junk_dir/junk4"),
+            ]
+        )
+        assert result["skipped"] == sorted(
+            [
+                str(Path(self.temp_dir1) / "tasks"),
+                str(Path(self.temp_dir1) / "generic-worker.cfg"),
+                str(Path(self.temp_dir1) / "caches"),
+            ]
+        )
 
     def test_directory_cleaner_non_existent(self):
         exception_list = ["generic-worker.cfg", "tasks", "caches"]
