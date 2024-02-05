@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "tc_directory_cleaner"
+name = "directory_cleaner"
 version = "0.1.0"
 description = ""
 authors = ["Andrew Erickson <aerickson@mozilla.com>"]

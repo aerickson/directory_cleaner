@@ -4,7 +4,7 @@ import os
 import shutil
 from pathlib import Path
 
-import tc_directory_cleaner.directory_cleaner as TDC
+import directory_cleaner.directory_cleaner as DC
 
 
 class TestFileOperations(unittest.TestCase):
@@ -36,7 +36,7 @@ class TestFileOperations(unittest.TestCase):
 
     def test_directory_cleaner(self):
         exception_list = ["generic-worker.cfg", "tasks", "caches"]
-        dc = TDC.DirectoryCleaner(self.temp_dir1, exception_list)
+        dc = DC.DirectoryCleaner(self.temp_dir1, exception_list)
         result = dc.clean_directory()
         # print(result)
         assert result["deleted"] == [
@@ -44,7 +44,7 @@ class TestFileOperations(unittest.TestCase):
             str(Path(self.temp_dir1) / "generic-worker.cfg.bak"),
             str(Path(self.temp_dir1) / "junk1"),
             str(Path(self.temp_dir1) / "junk_dir/junk4"),
-            
+
         ]
         assert result["skipped"] == [
             str(Path(self.temp_dir1) / "tasks"),
@@ -54,7 +54,7 @@ class TestFileOperations(unittest.TestCase):
 
     def test_directory_cleaner_non_existent(self):
         exception_list = ["generic-worker.cfg", "tasks", "caches"]
-        dc = TDC.DirectoryCleaner('/tmp/z838a8ca8a88c', exception_list)
+        dc = DC.DirectoryCleaner('/tmp/z838a8ca8a88c', exception_list)
         result = dc.clean_directory()
         assert result['errors'] == ['/tmp/z838a8ca8a88c']
 
