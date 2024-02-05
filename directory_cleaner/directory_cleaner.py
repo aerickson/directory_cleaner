@@ -11,9 +11,15 @@ class DirectoryCleaner:
         self.debug_mode = debug_mode
         self.dry_run = dry_run
 
+        if self.dry_run and self.debug_mode:
+            print("INFO: Dry run mode enabled. No files will be deleted.")
+
     def debug_print(self, a_string):
         if self.debug_mode:
-            print(a_string)
+            if self.dry_run:
+                print(f"DRY_RUN: {a_string}")
+            else:
+                print(a_string)
 
     def clean_directory(self):
         if not os.path.exists(self.directory_path):

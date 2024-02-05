@@ -3,4 +3,6 @@
 set -x
 set -e
 
+./.venv/bin/directory_cleaner -c configs/taskcluster_unix.toml -v -d /tmp/test-directory
+
 ./.venv/bin/directory_cleaner -c configs/taskcluster_unix.toml -v /tmp/test-directory
