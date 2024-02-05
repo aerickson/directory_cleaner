@@ -4,7 +4,7 @@
 set -e
 
 # .coveragerc sets options
-pytest -vv --cov=tc_directory_cleaner --cov-report=html
+pytest -vv --cov=directory_cleaner --cov-report=html
 
 
 echo ""
