@@ -7,6 +7,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.9"
+toml = "^0.10.2"
 
 [tool.poetry.scripts]
 directory_cleaner = "directory_cleaner.main:main"
