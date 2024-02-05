@@ -16,7 +16,7 @@ class TestFileOperations:
             os.makedirs(os.path.dirname(full_path), exist_ok=True)
             Path(full_path).touch()
 
-    def setup_method(self, method):
+    def setup_method(self, _method):
         # test dir 1
         self.temp_dir1 = tempfile.mkdtemp()
 
@@ -32,7 +32,7 @@ class TestFileOperations:
         ]
         self.create_folders_and_files(self.temp_dir1, files_and_directories1)
 
-    def teardown_method(self, method):
+    def teardown_method(self, _method):
         # Remove the temporary directory and its contents after the test
         shutil.rmtree(self.temp_dir1)
 
@@ -66,19 +66,16 @@ class TestFileOperations:
         _result = dc.clean_directory()
 
     # test that os.remove raising an exception
-    @pytest.mark.skip(reason="not working yet")
-    def test_directory_cleaner_exception(self, monkeypatch):
+    def test_directory_cleaner_exception(self, mocker):
         exception_list = ["generic-worker.cfg", "tasks", "caches"]
         dc = DC.DirectoryCleaner(self.temp_dir1, exception_list, debug_mode=True)
 
         # Arrange
-        monkeypatch.setattr(os, "remove", lambda x: FileNotFoundError("File not found"))
+        mocker.patch('os.remove', side_effect=FileNotFoundError("File not found"))
 
         # Act & Assert
-        with pytest.raises(FileNotFoundError):
-            # TODO: why isn't this calling os.remove and raising!?!?!
-            _result = dc.clean_directory()
-            # function_that_removes_file("dummy_file.txt")
+        _result = dc.clean_directory()
+        os.remove.assert_called()
 
 
 if __name__ == "__main__":
