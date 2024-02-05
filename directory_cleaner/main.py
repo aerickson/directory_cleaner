@@ -60,8 +60,6 @@ def main():
     args = parser.parse_args()
     # print(args)
 
-    # TODO: verify the config file exists
-
     # Parse the config file
     config_path = args.config_file
     try:
