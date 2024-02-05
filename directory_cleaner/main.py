@@ -6,16 +6,20 @@ import textwrap
 
 import directory_cleaner.directory_cleaner as DC
 
+
 def parse_config_file(config_path):
-    with open(config_path, 'r') as file:
+    with open(config_path, "r") as file:
         config = toml.load(file)
     return config
 
+
 def main():
     # Create ArgumentParser object
-    parser = argparse.ArgumentParser(description='Delete items in a directory while excluding certain items.',
-                                           formatter_class=argparse.RawDescriptionHelpFormatter,
-      epilog=textwrap.dedent('''\
+    parser = argparse.ArgumentParser(
+        description="Delete items in a directory while excluding certain items.",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog=textwrap.dedent(
+            """\
          config file format (toml):
 
             exclusion_patterns = [
@@ -23,14 +27,34 @@ def main():
                             'file_xyz',
                         ]                             
 
-         '''))
+         """
+        ),
+    )
 
     # Add command line argument for config file path
-    parser.add_argument('--config', '-c', dest='config_file', type=str, required=True,
-                        help='Path to the config file in INI format.')
-    parser.add_argument('--dry-run', '-d', dest='dry_run', action='store_true', help="Don't delete anything, just print what would be deleted.")
-    parser.add_argument('--verbose', '-v', dest='verbose', action='store_true', help='Print debug information.')
-    parser.add_argument('directory', type=str, help='The directory to clean.')
+    parser.add_argument(
+        "--config",
+        "-c",
+        dest="config_file",
+        type=str,
+        required=True,
+        help="Path to the config file in INI format.",
+    )
+    parser.add_argument(
+        "--dry-run",
+        "-d",
+        dest="dry_run",
+        action="store_true",
+        help="Don't delete anything, just print what would be deleted.",
+    )
+    parser.add_argument(
+        "--verbose",
+        "-v",
+        dest="verbose",
+        action="store_true",
+        help="Print debug information.",
+    )
+    parser.add_argument("directory", type=str, help="The directory to clean.")
 
     # Parse command line arguments
     args = parser.parse_args()
@@ -47,8 +71,14 @@ def main():
     #     print(f'{key} = {value}')
 
     # Create a DirectoryCleaner object
-    cleaner = DC.DirectoryCleaner(args.directory, config['exclusion_patterns'], dry_run=args.dry_run, debug_mode=args.verbose)
+    cleaner = DC.DirectoryCleaner(
+        args.directory,
+        config["exclusion_patterns"],
+        dry_run=args.dry_run,
+        debug_mode=args.verbose,
+    )
     cleaner.clean_directory()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

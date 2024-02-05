@@ -27,7 +27,8 @@ class TestFileOperations:
             "caches/cache1/blah2",
             "caches/cache2/blah" "tasks/task1/task123",
             "tasks/task2/task234",
-            "generic-worker.cfg", "generic-worker.cfg.bak"
+            "generic-worker.cfg",
+            "generic-worker.cfg.bak",
         ]
         self.create_folders_and_files(self.temp_dir1, files_and_directories1)
 
@@ -45,7 +46,6 @@ class TestFileOperations:
             str(Path(self.temp_dir1) / "generic-worker.cfg.bak"),
             str(Path(self.temp_dir1) / "junk1"),
             str(Path(self.temp_dir1) / "junk_dir/junk4"),
-
         ]
         assert result["skipped"] == [
             str(Path(self.temp_dir1) / "tasks"),
@@ -55,15 +55,15 @@ class TestFileOperations:
 
     def test_directory_cleaner_non_existent(self):
         exception_list = ["generic-worker.cfg", "tasks", "caches"]
-        dc = DC.DirectoryCleaner('/tmp/z838a8ca8a88c', exception_list)
+        dc = DC.DirectoryCleaner("/tmp/z838a8ca8a88c", exception_list)
         result = dc.clean_directory()
-        assert result['errors'] == ['/tmp/z838a8ca8a88c']
+        assert result["errors"] == ["/tmp/z838a8ca8a88c"]
 
     def test_directory_cleaner_verbose(self):
         exception_list = ["generic-worker.cfg", "tasks", "caches"]
         # sets debug_mode=True to test printing of debug messages
         dc = DC.DirectoryCleaner(self.temp_dir1, exception_list, debug_mode=True)
-        result = dc.clean_directory()
+        _result = dc.clean_directory()
 
     # test that os.remove raising an exception
     @pytest.mark.skip(reason="not working yet")
@@ -72,14 +72,14 @@ class TestFileOperations:
         dc = DC.DirectoryCleaner(self.temp_dir1, exception_list, debug_mode=True)
 
         # Arrange
-        monkeypatch.setattr(os, 'remove', lambda x: FileNotFoundError("File not found"))
+        monkeypatch.setattr(os, "remove", lambda x: FileNotFoundError("File not found"))
 
         # Act & Assert
         with pytest.raises(FileNotFoundError):
             # TODO: why isn't this calling os.remove and raising!?!?!
-            result = dc.clean_directory()
-            # function_that_removes_file("dummy_file.txt")    
-        
+            _result = dc.clean_directory()
+            # function_that_removes_file("dummy_file.txt")
+
 
 if __name__ == "__main__":
     unittest.main()
