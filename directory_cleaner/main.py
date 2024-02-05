@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import argparse
 import toml
 import textwrap
@@ -25,7 +23,7 @@ def main():
             exclusion_patterns = [
                             'directory_a',  # all files in this directory be excluded from deletion
                             'file_xyz',
-                        ]                             
+                        ]
 
          """
         ),

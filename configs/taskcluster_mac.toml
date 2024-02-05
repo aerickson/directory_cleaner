@@ -3,4 +3,4 @@ exclusion_patterns = [
                 'Downloads',
                 'tasks',
                 'caches',
-            ]   
+            ]

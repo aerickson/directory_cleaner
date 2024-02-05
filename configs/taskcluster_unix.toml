@@ -1,4 +1,4 @@
 exclusion_patterns = [
                 'tasks',
                 'caches',
-            ]   
+            ]
