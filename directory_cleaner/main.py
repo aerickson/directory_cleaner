@@ -29,6 +29,7 @@ def main():
     parser.add_argument('--config', '-c', dest='config_file', type=str, required=True,
                         help='Path to the config file in INI format.')
     parser.add_argument('--dry-run', '-d', dest='dry_run', action='store_true', help="Don't delete anything, just print what would be deleted.")
+    parser.add_argument('--verbose', '-v', dest='verbose', action='store_true', help='Print debug information.')
     parser.add_argument('directory', type=str, help='The directory to clean.')
 
     # Parse command line arguments
@@ -41,6 +42,10 @@ def main():
     # Print the parsed config
     for key, value in config.items():
         print(f'{key} = {value}')
+
+    # Create a DirectoryCleaner object
+    cleaner = DC.DirectoryCleaner(args.directory, config['exclusion_patterns'], dry_run=args.dry_run, debug_mode=args.verbose)
+    cleaner.clean_directory()
 
 if __name__ == '__main__':
     main()
