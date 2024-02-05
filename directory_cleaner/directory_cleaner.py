@@ -60,16 +60,14 @@ class DirectoryCleaner:
         }
 
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
 
-    # Example usage:
-    directory_path = "/tmp/test-directory"
-    exception_list = ["generic-worker.cfg", "tasks", "cache"]
+    # directory_path = "/tmp/test-directory"
+    # exception_list = ["generic-worker.cfg", "tasks", "cache"]
     # "Downloads", "file_to_keep.txt", "important_document.docx"]
 
-    cleaner = DirectoryCleaner(directory_path, exception_list)
-    result = cleaner.clean_directory()
+    # cleaner = DirectoryCleaner(directory_path, exception_list)
+    # result = cleaner.clean_directory()
 
-    # for debugging
     # import pprint
     # pprint.pprint(result)

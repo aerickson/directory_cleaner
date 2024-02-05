@@ -1,5 +1,6 @@
 import unittest
 import tempfile
+import pytest
 import os
 import shutil
 from pathlib import Path
@@ -7,7 +8,7 @@ from pathlib import Path
 import directory_cleaner.directory_cleaner as DC
 
 
-class TestFileOperations(unittest.TestCase):
+class TestFileOperations:
     def create_folders_and_files(self, root_dir, paths):
         for path in paths:
             full_path = os.path.join(root_dir, path)
@@ -15,7 +16,7 @@ class TestFileOperations(unittest.TestCase):
             os.makedirs(os.path.dirname(full_path), exist_ok=True)
             Path(full_path).touch()
 
-    def setUp(self):
+    def setup_method(self, method):
         # test dir 1
         self.temp_dir1 = tempfile.mkdtemp()
 
@@ -30,7 +31,7 @@ class TestFileOperations(unittest.TestCase):
         ]
         self.create_folders_and_files(self.temp_dir1, files_and_directories1)
 
-    def tearDown(self):
+    def teardown_method(self, method):
         # Remove the temporary directory and its contents after the test
         shutil.rmtree(self.temp_dir1)
 
@@ -57,6 +58,27 @@ class TestFileOperations(unittest.TestCase):
         dc = DC.DirectoryCleaner('/tmp/z838a8ca8a88c', exception_list)
         result = dc.clean_directory()
         assert result['errors'] == ['/tmp/z838a8ca8a88c']
+
+    def test_directory_cleaner_verbose(self):
+        exception_list = ["generic-worker.cfg", "tasks", "caches"]
+        # sets debug_mode=True to test printing of debug messages
+        dc = DC.DirectoryCleaner(self.temp_dir1, exception_list, debug_mode=True)
+        result = dc.clean_directory()
+
+    # test that os.remove raising an exception
+    @pytest.mark.skip(reason="not working yet")
+    def test_directory_cleaner_exception(self, monkeypatch):
+        exception_list = ["generic-worker.cfg", "tasks", "caches"]
+        dc = DC.DirectoryCleaner(self.temp_dir1, exception_list, debug_mode=True)
+
+        # Arrange
+        monkeypatch.setattr(os, 'remove', lambda x: FileNotFoundError("File not found"))
+
+        # Act & Assert
+        with pytest.raises(FileNotFoundError):
+            result = dc.clean_directory()
+            # function_that_removes_file("dummy_file.txt")    
+        
 
 if __name__ == "__main__":
     unittest.main()

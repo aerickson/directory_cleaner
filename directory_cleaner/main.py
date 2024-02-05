@@ -34,14 +34,17 @@ def main():
 
     # Parse command line arguments
     args = parser.parse_args()
+    # print(args)
+
+    # TODO: verify the config file exists
 
     # Parse the config file
     config_path = args.config_file
     config = parse_config_file(config_path)
 
-    # Print the parsed config
-    for key, value in config.items():
-        print(f'{key} = {value}')
+    # debugging: print the parsed config
+    # for key, value in config.items():
+    #     print(f'{key} = {value}')
 
     # Create a DirectoryCleaner object
     cleaner = DC.DirectoryCleaner(args.directory, config['exclusion_patterns'], dry_run=args.dry_run, debug_mode=args.verbose)
