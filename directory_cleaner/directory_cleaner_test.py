@@ -71,7 +71,7 @@ class TestFileOperations:
     # test that os.remove raising an exception
     def test_directory_cleaner_exception(self, mocker):
         exception_list = ["generic-worker.cfg", "tasks", "caches"]
-        dc = DC.DirectoryCleaner(self.temp_dir1, exception_list, debug_mode=True)
+        dc = DC.DirectoryCleaner(self.temp_dir1, exception_list)
 
         # Arrange
         mocker.patch("os.remove", side_effect=FileNotFoundError("File not found"))
