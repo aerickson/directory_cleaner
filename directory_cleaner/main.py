@@ -1,4 +1,5 @@
 import argparse
+import sys
 import toml
 import textwrap
 
@@ -52,6 +53,7 @@ def main():
         action="store_true",
         help="Print debug information.",
     )
+    # TODO: make dry run the default and add a --force option
     parser.add_argument("directory", type=str, help="The directory to clean.")
 
     # Parse command line arguments
@@ -62,7 +64,11 @@ def main():
 
     # Parse the config file
     config_path = args.config_file
-    config = parse_config_file(config_path)
+    try:
+        config = parse_config_file(config_path)
+    except FileNotFoundError:
+        print(f"ERROR: Config file '{config_path}' not found!")
+        sys.exit(1)
 
     # debugging: print the parsed config
     # for key, value in config.items():
