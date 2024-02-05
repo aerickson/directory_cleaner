@@ -1,5 +1,6 @@
 import argparse
 import sys
+import os
 import toml
 import textwrap
 
@@ -10,6 +11,18 @@ def parse_config_file(config_path):
     with open(config_path, "r") as file:
         config = toml.load(file)
     return config
+
+
+def get_version_from_pyproject():
+    pyproject_toml = os.path.normpath(
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "pyproject.toml")
+    )
+    try:
+        with open(pyproject_toml, "r") as toml_file:
+            pyproject_data = toml.load(toml_file)
+            return pyproject_data["tool"]["poetry"]["version"]
+    except FileNotFoundError:
+        return None
 
 
 def main():
@@ -53,6 +66,9 @@ def main():
         dest="verbose",
         action="store_true",
         help="Print debug information.",
+    )
+    parser.add_argument(
+        "--version", action="version", version=get_version_from_pyproject()
     )
     parser.add_argument("directory", type=str, help="The directory to clean.")
 
