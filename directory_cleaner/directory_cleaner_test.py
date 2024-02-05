@@ -76,6 +76,7 @@ class TestFileOperations:
 
         # Act & Assert
         with pytest.raises(FileNotFoundError):
+            # TODO: why isn't this calling os.remove and raising!?!?!
             result = dc.clean_directory()
             # function_that_removes_file("dummy_file.txt")    
         
