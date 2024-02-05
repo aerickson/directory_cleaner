@@ -33,4 +33,5 @@ pip3 install directory_cleaner-0.1.0-py3-none-any.whl
 
 # TODOs
 
+- start writing commits in the convention commit format (https://www.conventionalcommits.org/en/v1.0.0/)
 - start generating a changelog with a tool like https://github.com/KeNaCo/auto-changelog
