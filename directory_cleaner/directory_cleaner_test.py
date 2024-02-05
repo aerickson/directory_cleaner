@@ -1,6 +1,5 @@
 import unittest
 import tempfile
-import pytest
 import os
 import shutil
 from pathlib import Path
@@ -71,7 +70,7 @@ class TestFileOperations:
         dc = DC.DirectoryCleaner(self.temp_dir1, exception_list, debug_mode=True)
 
         # Arrange
-        mocker.patch('os.remove', side_effect=FileNotFoundError("File not found"))
+        mocker.patch("os.remove", side_effect=FileNotFoundError("File not found"))
 
         # Act & Assert
         _result = dc.clean_directory()
