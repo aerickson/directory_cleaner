@@ -39,6 +39,7 @@ def main():
         required=True,
         help="Path to the config file in INI format.",
     )
+    # TODO: make dry run the default and add a --force option
     parser.add_argument(
         "--dry-run",
         "-d",
@@ -53,7 +54,6 @@ def main():
         action="store_true",
         help="Print debug information.",
     )
-    # TODO: make dry run the default and add a --force option
     parser.add_argument("directory", type=str, help="The directory to clean.")
 
     # Parse command line arguments

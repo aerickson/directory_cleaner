@@ -11,6 +11,7 @@ class DirectoryCleaner:
         self.debug_mode = debug_mode
         self.dry_run = dry_run
 
+        # TODO: move this to main?
         if self.dry_run and self.debug_mode:
             print("INFO: Dry run mode enabled. No files will be deleted.")
 
