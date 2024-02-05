@@ -37,7 +37,7 @@ jobs:
     - name: Install Dependencies
       run: poetry install
     - name: Run pre-commit
-      run: pre-commit run -av
+      run: poetry run pre-commit run -av
   pytest:
     runs-on: ubuntu-latest
     steps:
