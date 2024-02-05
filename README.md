@@ -30,3 +30,7 @@ poetry build
 # install
 pip3 install directory_cleaner-0.1.0-py3-none-any.whl
 ```
+
+# TODOs
+
+- start generating a changelog with a tool like https://github.com/KeNaCo/auto-changelog
