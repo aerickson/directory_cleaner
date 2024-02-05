@@ -19,8 +19,8 @@ directory_cleaner -h
 ## building
 
 ```bash
-# build
 poetry build
+# output will be in /dist
 ```
 
 # installation
