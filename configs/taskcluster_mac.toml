@@ -1,0 +1,6 @@
+exclusion_patterns = [
+                'Library',
+                'Downloads',
+                'tasks',
+                'caches',
+            ]   
