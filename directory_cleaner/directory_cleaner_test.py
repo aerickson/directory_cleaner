@@ -11,6 +11,12 @@ import directory_cleaner.directory_cleaner as DC
 test_cases = [
     pytest.param(["directory_cleaner"], None, id="no args"),
     pytest.param(["directory_cleaner", "--help"], None, id="help"),
+    pytest.param(["directory_cleaner", "--version"], None, id="version"),
+    pytest.param(
+        ["directory_cleaner", "-c", "configs/taskcluster_unix.toml", "/tmp", "-d"],
+        None,
+        id="basic config",
+    ),
 ]
 
 
