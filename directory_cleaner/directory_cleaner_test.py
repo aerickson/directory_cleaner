@@ -9,30 +9,37 @@ from pathlib import Path
 import directory_cleaner.directory_cleaner as DC
 
 test_cases = [
-    pytest.param(["directory_cleaner"], None, id="no args"),
-    pytest.param(["directory_cleaner", "--help"], None, id="help"),
-    pytest.param(["directory_cleaner", "--version"], None, id="version"),
+    pytest.param(["directory_cleaner"], None, 2, id="no args"),
+    pytest.param(["directory_cleaner", "--help"], None, 0, id="help"),
+    pytest.param(["directory_cleaner", "--version"], None, 0, id="version"),
     pytest.param(
-        ["directory_cleaner", "-c", "configs/taskcluster_unix.toml", "/tmp", "-d"],
+        ["directory_cleaner", "-c", "configs/taskcluster_unix.toml", "/tmp"],
         None,
+        0,
         id="basic config",
+    ),
+    pytest.param(
+        ["directory_cleaner", "-c", "configs/bad.toml", "/tmp"],
+        None,
+        1,
+        id="non-existent config",
     ),
 ]
 
 
 class TestApp:
-    @pytest.mark.parametrize("command, expected_output", test_cases)
-    def test_app(self, command, expected_output):
-        full_command = ["directory_cleaner", "--help"]
-        result = subprocess.run(full_command, capture_output=True, text=True)
+    @pytest.mark.parametrize(
+        "command, expected_output, expected_result_code", test_cases
+    )
+    def test_app(self, command, expected_output, expected_result_code):
+        # full_command = ["directory_cleaner", "--help"]
+        env = os.environ.copy()
+        result = subprocess.run(command, capture_output=True, text=True, env=env)
         output = result.stdout.rstrip()
-        assert result.returncode == 0
-
+        print(output)
+        assert result.returncode == expected_result_code
         if expected_output:
             assert output == expected_output
-        # import pprint
-        # pprint.pprint()
-        # assert output == expected_output
 
 
 class TestFileOperations:
