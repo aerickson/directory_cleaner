@@ -1,10 +1,32 @@
 import unittest
 import tempfile
+import pytest
 import os
 import shutil
+import subprocess
 from pathlib import Path
 
 import directory_cleaner.directory_cleaner as DC
+
+test_cases = [
+    pytest.param(["directory_cleaner"], None, id="no args"),
+    pytest.param(["directory_cleaner", "--help"], None, id="help"),
+]
+
+
+class TestApp:
+    @pytest.mark.parametrize("command, expected_output", test_cases)
+    def test_app(self, command, expected_output):
+        full_command = ["directory_cleaner", "--help"]
+        result = subprocess.run(full_command, capture_output=True, text=True)
+        output = result.stdout.rstrip()
+        assert result.returncode == 0
+
+        if expected_output:
+            assert output == expected_output
+        # import pprint
+        # pprint.pprint()
+        # assert output == expected_output
 
 
 class TestFileOperations:
