@@ -37,6 +37,18 @@ test_cases = [
         1,
         id="non-existent config",
     ),
+    pytest.param(
+        ["directory_cleaner", "-c", "configs/testing_only/bad.toml", "PATH"],
+        None,
+        1,
+        id="malformed config",
+    ),
+    pytest.param(
+        ["directory_cleaner", "-c", "configs/testing_only/missing.toml", "PATH"],
+        None,
+        1,
+        id="missing required entry in config",
+    ),
 ]
 
 
