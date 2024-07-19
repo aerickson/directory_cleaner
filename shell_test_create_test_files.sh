@@ -19,5 +19,8 @@ mkdir -p $BASE_DIR/cache/test2
 touch $BASE_DIR/cache/test1/file1
 touch $BASE_DIR/cache/test2/file2
 
+mkdir -p $BASE_DIR/misc
+touch $BASE_DIR/misc/test.txt
+
 touch $BASE_DIR/junk1
 touch $BASE_DIR/junk2
