@@ -12,7 +12,7 @@ def parse_config_file(config_path):
             config = toml.load(file)
         if "exclusion_patterns" not in config:
             print(
-                f"ERROR: Config file '{config_path}' is missing 'exclusion_patterns' section."
+                f"ERROR: Config file '{config_path}' is missing 'exclusion_patterns' key."
             )
             sys.exit(1)
         return config
@@ -46,11 +46,11 @@ def main():
         epilog=textwrap.dedent(
             """\
              Config file format (TOML):
-             [exclusion_patterns]
-             patterns = [
-                            'directory_a',  # all files in this directory will be excluded from deletion
-                            'file_xyz',
-                        ]
+
+             exclusion_patterns = [
+                "directory_a",  # This directory and all files inside will be excluded from deletion
+                "file_xyz"
+             ]
              """
         ),
     )
