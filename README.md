@@ -1,5 +1,8 @@
 # directory_cleaner
 
+![Test Status](https://github.com/aerickson/directory_cleaner/actions/workflows/main.yml/badge.svg)
+[![Coverage Status](https://coveralls.io/repos/github/aerickson/directory_cleaner/badge.svg?branch=more_tests)](https://coveralls.io/github/aerickson/directory_cleaner?branch=more_tests)
+
 ## overview
 
 Deletes files in a directory that aren't on the exception list.
