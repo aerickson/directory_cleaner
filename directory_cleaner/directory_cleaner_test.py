@@ -88,6 +88,8 @@ class TestFileOperations:
             "caches/cache2/blah" "tasks/task1/task123",
             "tasks/task2/task234",
             "misc2/",
+            "misc2/test111",
+            "misc3",
             "misc/blah.txt",
             "generic-worker.cfg",
             "generic-worker.cfg.bak",
@@ -112,6 +114,7 @@ class TestFileOperations:
                 str(Path(self.temp_dir1) / "junk_dir/junk4"),
                 str(Path(self.temp_dir1) / "misc"),
                 str(Path(self.temp_dir1) / "misc/blah.txt"),
+                str(Path(self.temp_dir1) / "misc3"),
             ]
         )
         assert result["skipped"] == sorted(
