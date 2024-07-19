@@ -19,6 +19,19 @@ test_cases = [
         id="basic config",
     ),
     pytest.param(
+        [
+            "directory_cleaner",
+            "-c",
+            "configs/taskcluster_unix.toml",
+            "/tmp",
+            "-d",
+            "-v",
+        ],
+        None,
+        0,
+        id="basic config (dry run and verbose)",
+    ),
+    pytest.param(
         ["directory_cleaner", "-c", "configs/bad.toml", "/tmp"],
         None,
         1,
