@@ -75,6 +75,7 @@ class TestFileOperations:
             "caches/cache1/blah2",
             "caches/cache2/blah" "tasks/task1/task123",
             "tasks/task2/task234",
+            "misc2/",
             "misc/blah.txt",
             "generic-worker.cfg",
             "generic-worker.cfg.bak",
@@ -86,7 +87,7 @@ class TestFileOperations:
         shutil.rmtree(self.temp_dir1)
 
     def test_directory_cleaner(self):
-        exception_list = ["generic-worker.cfg", "tasks", "caches"]
+        exception_list = ["generic-worker.cfg", "tasks", "caches", "misc2"]
         dc = DC.DirectoryCleaner(self.temp_dir1, exception_list)
         result = dc.clean_directory()
         # print(result)
@@ -105,6 +106,7 @@ class TestFileOperations:
             [
                 str(Path(self.temp_dir1) / "tasks"),
                 str(Path(self.temp_dir1) / "generic-worker.cfg"),
+                str(Path(self.temp_dir1) / "misc2"),
                 str(Path(self.temp_dir1) / "caches"),
             ]
         )
