@@ -21,7 +21,7 @@ class DirectoryCleaner:
         if self.dry_run and self.debug_mode:
             print("INFO: Dry run mode enabled. No files will be deleted.")
 
-    def debug_print(self, message):
+    def _debug_print(self, message):
         if self.debug_mode:
             if self.dry_run:
                 print(f"DRY_RUN: {message}")
@@ -34,7 +34,7 @@ class DirectoryCleaner:
             self.result["errors"].append(self.directory_path)
             return self.result
 
-        self.debug_print(f"Cleaning directory '{self.directory_path}'...")
+        self._debug_print(f"Cleaning directory '{self.directory_path}'...")
         self._clean_non_recursive()
         self._remove_empty_directories()
 
@@ -68,13 +68,13 @@ class DirectoryCleaner:
                         try:
                             if not self.dry_run:
                                 os.remove(item_path)
-                            self.debug_print(f"Removed file: {item_path}")
+                            self._debug_print(f"Removed file: {item_path}")
                             self.result["deleted_files"].append(item_path)
                         except Exception as e:
-                            self.debug_print(f"Error removing file {item_path}: {e}")
+                            self._debug_print(f"Error removing file {item_path}: {e}")
                             self.result["errors"].append(item_path)
                 else:
-                    self.debug_print(f"Skipped file/directory: {item_path}")
+                    self._debug_print(f"Skipped file/directory: {item_path}")
                     self.result["skipped"].append(item_path)
 
         self.result["skipped"].sort()
@@ -90,10 +90,10 @@ class DirectoryCleaner:
                     try:
                         if not self.dry_run:
                             os.rmdir(dir_path)
-                        self.debug_print(f"Removed empty directory: {dir_path}")
+                        self._debug_print(f"Removed empty directory: {dir_path}")
                         self.result["deleted_directories"].append(dir_path)
                     except Exception as e:
-                        self.debug_print(f"Error removing directory {dir_path}: {e}")
+                        self._debug_print(f"Error removing directory {dir_path}: {e}")
                         self.result["errors"].append(dir_path)
 
         self.result["deleted_directories"].sort()
