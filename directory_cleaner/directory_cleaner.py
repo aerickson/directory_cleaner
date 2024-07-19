@@ -12,9 +12,6 @@ class DirectoryCleaner:
         self.dry_run = dry_run
         self.result = {"skipped": [], "deleted": [], "errors": []}
 
-        if self.dry_run and self.debug_mode:
-            print("INFO: Dry run mode enabled. No files will be deleted.")
-
     def debug_print(self, a_string):
         if self.debug_mode:
             if self.dry_run:
@@ -82,10 +79,27 @@ class DirectoryCleaner:
         self.result["errors"] = sorted(self.result["errors"])
 
 
-# if __name__ == "__main__":
-#     directory_path = "/tmp/test-directory"
-#     exception_list = ["generic-worker.cfg", "tasks", "cache", "Downloads", "file_to_keep.txt", "important_document.docx"]
-#     cleaner = DirectoryCleaner(directory_path, exception_list, debug_mode=True, dry_run=True)
-#     result = cleaner.clean_directory()
-#     import pprint
-#     pprint.pprint(result)
+if __name__ == "__main__":
+    directory_path = "/tmp/test-directory"
+    exception_list = [
+        "generic-worker.cfg",
+        "tasks",
+        "cache",
+        "Downloads",
+        "file_to_keep.txt",
+        "important_document.docx",
+    ]
+    debug_mode = True
+    dry_run = True
+
+    if dry_run and debug_mode:
+        print("INFO: Dry run mode enabled. No files will be deleted.")
+
+    cleaner = DirectoryCleaner(
+        directory_path, exception_list, debug_mode=debug_mode, dry_run=dry_run
+    )
+    result = cleaner.clean_directory()
+
+    import pprint
+
+    pprint.pprint(result)
