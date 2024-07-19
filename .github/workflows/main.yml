@@ -74,3 +74,9 @@ jobs:
       - name: Run tests
         run: |
           poetry run python -m pytest -sxv
+      - name: Generate coverage
+        run: poetry run ./gen_coverage.sh
+      - name: Report Coveralls (Linux)
+        run: curl -sL https://coveralls.io/coveralls-linux.tar.gz | tar -xz && ./coveralls
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
