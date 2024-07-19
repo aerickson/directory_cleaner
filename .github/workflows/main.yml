@@ -75,7 +75,7 @@ jobs:
         run: |
           poetry run python -m pytest -sxv
       - name: Generate coverage
-        run: poetry run ./gen_coverage.sh
+        run: poetry run pytest -vv --cov=directory_cleaner --cov-report=lcov
       - name: Report Coveralls (Linux)
         run: curl -sL https://coveralls.io/coveralls-linux.tar.gz | tar -xz && ./coveralls
         env:
