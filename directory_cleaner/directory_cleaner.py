@@ -5,11 +5,19 @@ from collections import deque
 
 
 class DirectoryCleaner:
-    def __init__(self, directory_path, exception_list, debug_mode=False, dry_run=False):
+    def __init__(
+        self,
+        directory_path,
+        exception_list,
+        debug_mode=False,
+        dry_run=False,
+        remove_empty_directories=False,
+    ):
         self.directory_path = directory_path
         self.exception_list = exception_list
         self.debug_mode = debug_mode
         self.dry_run = dry_run
+        self.remove_empty_directories = remove_empty_directories
         self.result = {
             "skipped": [],
             "deleted_files": [],
@@ -36,7 +44,9 @@ class DirectoryCleaner:
 
         self._debug_print(f"Cleaning directory '{self.directory_path}'...")
         self._clean_non_recursive()
-        self._remove_empty_directories()
+
+        if self.remove_empty_directories:
+            self._remove_empty_directories()
 
         # Combine deleted files and directories into the deleted field
         self.result["deleted"] = sorted(

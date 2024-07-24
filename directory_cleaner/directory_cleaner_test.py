@@ -49,6 +49,32 @@ class TestFileOperations:
                 str(Path(self.temp_dir1) / "generic-worker.cfg.bak"),
                 str(Path(self.temp_dir1) / "junk1"),
                 str(Path(self.temp_dir1) / "junk2"),
+                str(Path(self.temp_dir1) / "junk_dir/junk4"),
+                str(Path(self.temp_dir1) / "misc/blah.txt"),
+                str(Path(self.temp_dir1) / "misc3"),
+            ]
+        )
+        assert result["skipped"] == sorted(
+            [
+                str(Path(self.temp_dir1) / "tasks"),
+                str(Path(self.temp_dir1) / "generic-worker.cfg"),
+                str(Path(self.temp_dir1) / "misc2"),
+                str(Path(self.temp_dir1) / "caches"),
+            ]
+        )
+
+    def test_directory_cleaner_with_dir_cleaning(self):
+        exception_list = ["generic-worker.cfg", "tasks", "caches", "misc2"]
+        dc = DC.DirectoryCleaner(
+            self.temp_dir1, exception_list, remove_empty_directories=True
+        )
+        result = dc.clean_directory()
+        # print(result)
+        assert result["deleted"] == sorted(
+            [
+                str(Path(self.temp_dir1) / "generic-worker.cfg.bak"),
+                str(Path(self.temp_dir1) / "junk1"),
+                str(Path(self.temp_dir1) / "junk2"),
                 str(Path(self.temp_dir1) / "junk_dir"),
                 str(Path(self.temp_dir1) / "junk_dir/junk4"),
                 str(Path(self.temp_dir1) / "misc"),
