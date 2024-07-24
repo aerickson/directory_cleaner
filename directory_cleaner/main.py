@@ -41,7 +41,7 @@ def get_version_from_pyproject():
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Delete items in a directory while excluding certain items.",
+        description="Remove all files and directories not in an exception list (in a specific directory).",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=textwrap.dedent(
             """\
