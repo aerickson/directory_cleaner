@@ -41,7 +41,7 @@ def get_version_from_pyproject():
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Remove all files and directories not in an exception list (in a specfic directory).",
+        description="Delete items in a directory while excluding certain items.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=textwrap.dedent(
             """\
@@ -78,6 +78,13 @@ def main():
         help="Print debug information.",
     )
     parser.add_argument(
+        "--remove-empty-directories",
+        "-r",
+        dest="remove_empty_directories",
+        action="store_true",
+        help="Remove empty directories.",
+    )
+    parser.add_argument(
         "--version", action="version", version=get_version_from_pyproject()
     )
     parser.add_argument("directory", type=str, help="The directory to clean.")
@@ -93,6 +100,7 @@ def main():
         config["exclusion_patterns"],
         dry_run=args.dry_run,
         debug_mode=args.verbose,
+        remove_empty_directories=args.remove_empty_directories,
     )
 
     # Clean the directory
