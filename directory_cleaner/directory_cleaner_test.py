@@ -63,7 +63,7 @@ class TestFileOperations:
             ]
         )
 
-    def test_directory_cleaner_with_dir_cleaning(self):
+    def test_directory_cleaner_with_empty_dir_removal(self):
         exception_list = ["generic-worker.cfg", "tasks", "caches", "misc2"]
         dc = DC.DirectoryCleaner(
             self.temp_dir1, exception_list, remove_empty_directories=True
