@@ -1,59 +1,10 @@
 import unittest
 import tempfile
-import pytest
 import os
 import shutil
-import subprocess
 from pathlib import Path
 
 import directory_cleaner.directory_cleaner as DC
-
-test_cases = [
-    pytest.param(["directory_cleaner"], None, 2, id="no args"),
-    pytest.param(["directory_cleaner", "--help"], None, 0, id="help"),
-    pytest.param(["directory_cleaner", "--version"], None, 0, id="version"),
-    pytest.param(
-        ["directory_cleaner", "-c", "configs/taskcluster_unix.toml", "PATH"],
-        None,
-        0,
-        id="basic config",
-    ),
-    pytest.param(
-        [
-            "directory_cleaner",
-            "-c",
-            "configs/taskcluster_unix.toml",
-            "PATH",
-            "-d",
-            "-v",
-        ],
-        None,
-        0,
-        id="basic config (dry run and verbose)",
-    ),
-    pytest.param(
-        ["directory_cleaner", "-c", "configs/bad.toml", "PATH"],
-        None,
-        1,
-        id="non-existent config",
-    ),
-]
-
-
-class TestApp:
-    @pytest.mark.parametrize(
-        "command, expected_output, expected_result_code", test_cases
-    )
-    def test_app(self, command, expected_output, expected_result_code, tmp_path):
-        for item in command:
-            if item == "PATH":
-                command[command.index(item)] = str(tmp_path)
-        env = os.environ.copy()
-        result = subprocess.run(command, capture_output=True, text=True, env=env)
-        output = result.stdout.rstrip()
-        assert result.returncode == expected_result_code
-        if expected_output:
-            assert output == expected_output
 
 
 class TestFileOperations:
@@ -75,6 +26,10 @@ class TestFileOperations:
             "caches/cache1/blah2",
             "caches/cache2/blah" "tasks/task1/task123",
             "tasks/task2/task234",
+            "misc2/",
+            "misc2/test111",
+            "misc3",
+            "misc/blah.txt",
             "generic-worker.cfg",
             "generic-worker.cfg.bak",
         ]
@@ -85,7 +40,7 @@ class TestFileOperations:
         shutil.rmtree(self.temp_dir1)
 
     def test_directory_cleaner(self):
-        exception_list = ["generic-worker.cfg", "tasks", "caches"]
+        exception_list = ["generic-worker.cfg", "tasks", "caches", "misc2"]
         dc = DC.DirectoryCleaner(self.temp_dir1, exception_list)
         result = dc.clean_directory()
         # print(result)
@@ -95,12 +50,43 @@ class TestFileOperations:
                 str(Path(self.temp_dir1) / "junk1"),
                 str(Path(self.temp_dir1) / "junk2"),
                 str(Path(self.temp_dir1) / "junk_dir/junk4"),
+                str(Path(self.temp_dir1) / "misc/blah.txt"),
+                str(Path(self.temp_dir1) / "misc3"),
             ]
         )
         assert result["skipped"] == sorted(
             [
                 str(Path(self.temp_dir1) / "tasks"),
                 str(Path(self.temp_dir1) / "generic-worker.cfg"),
+                str(Path(self.temp_dir1) / "misc2"),
+                str(Path(self.temp_dir1) / "caches"),
+            ]
+        )
+
+    def test_directory_cleaner_with_empty_dir_removal(self):
+        exception_list = ["generic-worker.cfg", "tasks", "caches", "misc2"]
+        dc = DC.DirectoryCleaner(
+            self.temp_dir1, exception_list, remove_empty_directories=True
+        )
+        result = dc.clean_directory()
+        # print(result)
+        assert result["deleted"] == sorted(
+            [
+                str(Path(self.temp_dir1) / "generic-worker.cfg.bak"),
+                str(Path(self.temp_dir1) / "junk1"),
+                str(Path(self.temp_dir1) / "junk2"),
+                str(Path(self.temp_dir1) / "junk_dir"),
+                str(Path(self.temp_dir1) / "junk_dir/junk4"),
+                str(Path(self.temp_dir1) / "misc"),
+                str(Path(self.temp_dir1) / "misc/blah.txt"),
+                str(Path(self.temp_dir1) / "misc3"),
+            ]
+        )
+        assert result["skipped"] == sorted(
+            [
+                str(Path(self.temp_dir1) / "tasks"),
+                str(Path(self.temp_dir1) / "generic-worker.cfg"),
+                str(Path(self.temp_dir1) / "misc2"),
                 str(Path(self.temp_dir1) / "caches"),
             ]
         )

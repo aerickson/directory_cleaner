@@ -3,14 +3,25 @@ import sys
 import os
 import toml
 import textwrap
-
 import directory_cleaner.directory_cleaner as DC
 
 
 def parse_config_file(config_path):
-    with open(config_path, "r") as file:
-        config = toml.load(file)
-    return config
+    try:
+        with open(config_path, "r") as file:
+            config = toml.load(file)
+        if "exclusion_patterns" not in config:
+            print(
+                f"ERROR: Config file '{config_path}' is missing 'exclusion_patterns' key."
+            )
+            sys.exit(1)
+        return config
+    except FileNotFoundError:
+        print(f"ERROR: Config file '{config_path}' not found!")
+        sys.exit(1)
+    except toml.TomlDecodeError as e:
+        print(f"ERROR: Error parsing config file '{config_path}': {e}")
+        sys.exit(1)
 
 
 def get_version_from_pyproject():
@@ -22,37 +33,36 @@ def get_version_from_pyproject():
             pyproject_data = toml.load(toml_file)
             return pyproject_data["tool"]["poetry"]["version"]
     except FileNotFoundError:
-        return None
+        return "Unknown"
+    except toml.TomlDecodeError as e:
+        print(f"ERROR: Error parsing pyproject.toml file: {e}")
+        return "Unknown"
 
 
 def main():
-    # Create ArgumentParser object
     parser = argparse.ArgumentParser(
-        description="Delete items in a directory while excluding certain items.",
+        description="Remove all files and directories not in an exception list (in a specific directory).",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=textwrap.dedent(
             """\
-         config file format (toml):
+             Config file format (TOML):
 
-            exclusion_patterns = [
-                            'directory_a',  # all files in this directory be excluded from deletion
-                            'file_xyz',
-                        ]
-
-         """
+             exclusion_patterns = [
+                "directory_a",  # This directory and all files inside will be excluded from deletion
+                "file_xyz"
+             ]
+             """
         ),
     )
 
-    # Add command line argument for config file path
     parser.add_argument(
         "--config",
         "-c",
         dest="config_file",
         type=str,
         required=True,
-        help="Path to the config file in INI format.",
+        help="Path to the config file in TOML format.",
     )
-    # TODO: make dry run the default and add a --force option
     parser.add_argument(
         "--dry-run",
         "-d",
@@ -68,25 +78,21 @@ def main():
         help="Print debug information.",
     )
     parser.add_argument(
+        "--remove-empty-directories",
+        "-r",
+        dest="remove_empty_directories",
+        action="store_true",
+        help="Remove empty directories.",
+    )
+    parser.add_argument(
         "--version", action="version", version=get_version_from_pyproject()
     )
     parser.add_argument("directory", type=str, help="The directory to clean.")
 
-    # Parse command line arguments
     args = parser.parse_args()
-    # print(args)
 
     # Parse the config file
-    config_path = args.config_file
-    try:
-        config = parse_config_file(config_path)
-    except FileNotFoundError:
-        print(f"ERROR: Config file '{config_path}' not found!")
-        sys.exit(1)
-
-    # debugging: print the parsed config
-    # for key, value in config.items():
-    #     print(f'{key} = {value}')
+    config = parse_config_file(args.config_file)
 
     # Create a DirectoryCleaner object
     cleaner = DC.DirectoryCleaner(
@@ -94,7 +100,10 @@ def main():
         config["exclusion_patterns"],
         dry_run=args.dry_run,
         debug_mode=args.verbose,
+        remove_empty_directories=args.remove_empty_directories,
     )
+
+    # Clean the directory
     cleaner.clean_directory()
 
 

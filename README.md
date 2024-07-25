@@ -5,7 +5,7 @@
 
 ## overview
 
-Deletes files in a directory that aren't on the exception list.
+Remove all files and directories not in an exception list (in a specfic directory).
 
 - Files under an excepted directory will also be excluded from deletion.
 
