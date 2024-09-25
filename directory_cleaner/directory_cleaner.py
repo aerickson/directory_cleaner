@@ -54,6 +54,7 @@ class DirectoryCleaner:
         )
 
         # Print summary message
+        # TODO: mention skipped directories?
         self._debug_print(
             f"Cleaned directory '{self.directory_path}'. Removed {len(self.result['deleted_files'])} files and {len(self.result['deleted_directories'])} directories."
         )
