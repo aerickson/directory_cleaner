@@ -69,10 +69,10 @@ class DirectoryCleaner:
 
             for item in os.listdir(current_path):
                 item_path = os.path.join(current_path, item)
+                self._debug_print(f"Inspecting {item_path}...")
 
                 # Check if the file/directory is in the exception list
                 if item not in self.exception_list:
-                    self._debug_print(f"Inspecting {item}...")
                     if os.path.isdir(item_path):
                         stack.append(item_path)
                     elif os.path.isfile(item_path):
