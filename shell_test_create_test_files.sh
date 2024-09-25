@@ -24,3 +24,6 @@ touch $BASE_DIR/misc/test.txt
 
 touch $BASE_DIR/junk1
 touch $BASE_DIR/junk2
+
+cp -r /System/Applications/Utilities/Terminal.app $BASE_DIR
+xattr -r -w com.apple.quarantine "0081;5f8e2361;Safari;1234ABC-5678-DEF0" $BASE_DIR/Terminal.app
