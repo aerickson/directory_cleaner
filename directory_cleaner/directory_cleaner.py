@@ -27,7 +27,7 @@ class DirectoryCleaner:
         }
 
         if self.dry_run and self.debug_mode:
-            print("INFO: Dry run mode enabled. No files will be deleted.")
+            print("INFO: Dry run mode enabled. No files or directories will be deleted.")
 
     def _debug_print(self, message):
         if self.debug_mode:
