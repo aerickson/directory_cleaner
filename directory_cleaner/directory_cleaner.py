@@ -27,7 +27,9 @@ class DirectoryCleaner:
         }
 
         if self.dry_run and self.debug_mode:
-            print("INFO: Dry run mode enabled. No files will be deleted.")
+            print(
+                "INFO: Dry run mode enabled. No files or directories will be deleted."
+            )
 
     def _debug_print(self, message):
         if self.debug_mode:
@@ -54,7 +56,8 @@ class DirectoryCleaner:
         )
 
         # Print summary message
-        print(
+        # TODO: mention skipped directories?
+        self._debug_print(
             f"Cleaned directory '{self.directory_path}'. Removed {len(self.result['deleted_files'])} files and {len(self.result['deleted_directories'])} directories."
         )
 
@@ -68,6 +71,7 @@ class DirectoryCleaner:
 
             for item in os.listdir(current_path):
                 item_path = os.path.join(current_path, item)
+                self._debug_print(f"Inspecting {item_path}...")
 
                 # Check if the file/directory is in the exception list
                 if item not in self.exception_list:

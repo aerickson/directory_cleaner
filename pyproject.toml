@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "directory_cleaner"
-version = "0.2.0"
+version = "0.2.1"
 description = ""
 authors = ["Andrew Erickson <aerickson@mozilla.com>"]
 readme = "README.md"
